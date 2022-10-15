@@ -33,8 +33,10 @@
 
 <script setup>
 import { ref } from "vue";
+
 const rightDrawerOpen = ref(false);
 const toggleRightDrawer = () => {
   rightDrawerOpen.value = !rightDrawerOpen.value;
 };
+
 </script>
