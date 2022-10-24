@@ -1,17 +1,19 @@
 <template>
-  <q-page class="flex flex-center">
-    <img
-      alt="Quasar logo"
-      src="~assets/quasar-logo-vertical.svg"
-      style="width: 200px; height: 200px"
-    >
+  <q-page v-if="!userGoogle">
+    <h3 class="text-center text-secondary">Debes iniciar sesion</h3>
+  </q-page>
+
+  <q-page v-else padding>
+    <div class="q-pa-md row justify-center">
+      <div style="width: 100%; max-width: 400px">
+        <q-chat-message :text="['hey, how are you?']" sent name="rafajlpz" />
+        <q-chat-message :text="['doing fine, how r you?']" name="xaxa" />
+      </div>
+    </div>
   </q-page>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
-
-export default defineComponent({
-  name: 'IndexPage'
-})
+<script setup>
+import { inject } from "vue";
+const userGoogle = inject("userGoogle"); // Traemos la sesion activa
 </script>
