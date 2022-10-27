@@ -14,6 +14,18 @@
 </template>
 
 <script setup>
+import { collection, query, onSnapshot } from "firebase/firestore";
 import { inject } from "vue";
+import { db } from "src/firebase";
+
+const q = query(collection(db, "chats"));
+const unsubscribe = onSnapshot(q, (snapshot) => {
+  snapshot.docChanges().forEach((change) => {
+    if (change.type === "added") {
+        console.log("Nuevo chat: ", change.doc.data());
+    }
+  });
+});
+
 const userGoogle = inject("userGoogle"); // Traemos la sesion activa
 </script>
