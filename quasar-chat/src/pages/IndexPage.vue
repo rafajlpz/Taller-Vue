@@ -23,9 +23,14 @@ const unsubscribe = onSnapshot(q, (snapshot) => {
   snapshot.docChanges().forEach((change) => {
     if (change.type === "added") {
         console.log("Nuevo chat: ", change.doc.data());
+        messages.value.push ({
+          id: change.doc.id,
+          ...change.doc.data(),
+        })
     }
   });
 });
 
 const userGoogle = inject("userGoogle"); // Traemos la sesion activa
+const messages = ref([])
 </script>

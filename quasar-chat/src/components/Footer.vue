@@ -8,7 +8,7 @@
         standout
         v-model="text"
         label="Ingresar texto"
-        @keyup=""
+        @keyup.enter="addText"
       >
         <template v-slot:append>
           <q-icon
@@ -38,7 +38,11 @@ const addText = () => {
     time: Date.now(),
     displayName: auth.currentUser.displayName,
   })
-    .then(() => console.log("Sonido"))
+    .then(() => {
+      console.log("Sonido");
+      text.value = "";
+    })
+
     .catch((e) => console.log(e));
 };
 </script>
