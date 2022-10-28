@@ -6,10 +6,7 @@
   <q-page v-else padding>
     <div class="q-pa-md row justify-center">
       <div style="width: 100%; max-width: 400px">
-        <template 
-        v-for="message in messages" 
-        :key="message.id">
-
+        <template v-for="message in messages" :key="message.id">
           <q-chat-message
             :text="[message.text]"
             :sent="message.uid == auth.currentUser.uid"
@@ -27,17 +24,19 @@ import { inject } from "vue";
 import { auth, db } from "src/firebase";
 import { ref } from "vue";
 
-const q = query(collection(db, "chats"), orderBy('time'));
+const q = query(collection(db, "chats"), orderBy("time"));
 const unsubscribe = onSnapshot(q, (snapshot) => {
-  snapshot.docChanges().forEach((change) => {
-    if (change.type === "added") {
-      console.log("Nuevo chat: ", change.doc.data());
-      messages.value.push({
-        id: change.doc.id,
-        ...change.doc.data(),
-      });
-    }
-  });
+  // if (userGoogle.value) {
+    snapshot.docChanges().forEach((change) => {
+      if (change.type === "added") {
+        console.log("Nuevo chat: ", change.doc.data());
+        messages.value.push({
+          id: change.doc.id,
+          ...change.doc.data(),
+        });
+      }
+    });
+  
 });
 
 const userGoogle = inject("userGoogle"); // Traemos la sesion activa
