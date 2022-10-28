@@ -6,13 +6,13 @@
       <router-view />
     </q-page-container>
 
-    <Footer></Footer>
+    <Footer v-if="userGoogle"></Footer>
   </q-layout>
 </template>
 
 <script setup>
-import Navbar from "src/components/Navbar.vue";
 import { inject } from "vue";
+import Navbar from "src/components/Navbar.vue";
 import Footer from "src/components/Footer.vue";
 
 const userGoogle = inject("userGoogle");
