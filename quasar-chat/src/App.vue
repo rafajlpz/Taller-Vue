@@ -21,3 +21,11 @@ onAuthStateChanged(auth, (user) => {
 
 $q.loading.show();
 </script>
+
+<style>
+body{
+  overflow-y: hidden;
+}
+
+
+</style>
