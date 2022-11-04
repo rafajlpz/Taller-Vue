@@ -20,32 +20,33 @@
 
 <script setup>
 import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
-import { inject } from "vue";
-import { auth, db } from "src/firebase";
-import { ref, nextTick } from "vue";
 
+import { auth, db } from "src/firebase";
+import { ref, nextTick, inject, watchEffect } from "vue";
 
 const userGoogle = inject("userGoogle"); // Traemos la sesion activa
 const messages = ref([]);
 const chatRef = ref(null);
 
-
-if (userGoogle.value) {
-  const q = query(collection(db, "chats"), orderBy("time"));
-  const unsubscribe = onSnapshot(q, (snapshot) => {
-    snapshot.docChanges().forEach(async (change) => {
-      if (change.type === "added") {
-        console.log("Nuevo chat: ", change.doc.data());
-        messages.value.push({
-          id: change.doc.id,
-          ...change.doc.data(),
-        });
-        await nextTick();
-        chatRef.value.scrollTo(0, chatRef.value.scrollHeight);
-      }
+watchEffect((onCleanup) => {
+  if (userGoogle.value) {
+    const q = query(collection(db, "chats"), orderBy("time"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach(async (change) => {
+        if (change.type === "added") {
+          
+          messages.value.push({
+            id: change.doc.id,
+            ...change.doc.data(),
+          });
+          await nextTick();
+          chatRef.value.scrollTo(0, chatRef.value.scrollHeight);
+        }
+      });
     });
-  });
-}
+    onCleanup(unsubscribe)
+  }
+});
 </script>
 
 <style>
