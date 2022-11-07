@@ -49,10 +49,10 @@
   >
     <div class="absolute-bottom bg-transparent">
       <q-avatar size="56px" class="q-mb-sm">
-        <img src="https://cdn.quasar.dev/img/boy-avatar.png" />
+        <img :src="userGoogle.photoURL" />
       </q-avatar>
       <div class="text-weight-bold">{{userGoogle.displayName}}</div>
-      <div>@rstoenescu</div>
+      <div>{{userGoogle.email}}</div>
     </div>
   </q-img>
 </template>
@@ -60,5 +60,7 @@
 <script setup>
 import { inject } from "vue";
 
+
 const userGoogle = inject("userGoogle");
+console.log(userGoogle.value)
 </script>
