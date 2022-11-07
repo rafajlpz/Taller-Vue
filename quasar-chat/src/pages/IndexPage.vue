@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { collection, query, onSnapshot, orderBy } from "firebase/firestore";
+import { collection, query, onSnapshot, orderBy, limit } from "firebase/firestore";
 
 import { auth, db } from "src/firebase";
 import { ref, nextTick, inject, watchEffect } from "vue";
@@ -28,9 +28,11 @@ const userGoogle = inject("userGoogle"); // Traemos la sesion activa
 const messages = ref([]);
 const chatRef = ref(null);
 
+let inicio = 0
+
 watchEffect((onCleanup) => {
   if (userGoogle.value) {
-    const q = query(collection(db, "chats"), orderBy("time"));
+    const q = query(collection(db, "chats"), orderBy("time"), limit(10));
     const unsubscribe = onSnapshot(q, (snapshot) => {
       snapshot.docChanges().forEach(async (change) => {
         if (change.type === "added") {
@@ -39,6 +41,11 @@ watchEffect((onCleanup) => {
             id: change.doc.id,
             ...change.doc.data(),
           });
+
+          if(inicio === 0) {
+            messages.value = messages.value.reverse();
+            inicio = 1;
+          }
           await nextTick();
           chatRef.value.scrollTo(0, chatRef.value.scrollHeight);
         }
