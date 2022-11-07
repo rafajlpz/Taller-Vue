@@ -39,7 +39,7 @@
     bordered
     v-if="userGoogle"
   >
-    <!-- drawer content -->
+    <InfoUser/>
   </q-drawer>
 </template>
 
@@ -47,6 +47,7 @@
 import { ref, inject } from "vue";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { auth } from "src/firebase";
+import InfoUser from "./InfoUser.vue"
 
 const userGoogle = inject("userGoogle");
 const rightDrawerOpen = ref(false);
