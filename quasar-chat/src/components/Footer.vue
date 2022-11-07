@@ -31,7 +31,12 @@ import { db, auth } from "src/firebase";
 const text = ref("");
 
 const addText = () => {
-  console.log(text.value);
+  
+  if(!text.value.trim()){
+    text.value = "";
+
+    return console.log('mostrar alerta de mensaje vacio')
+  }
   addDoc(collection(db, "chats"), {
     text: text.value,
     uid: auth.currentUser.uid,
